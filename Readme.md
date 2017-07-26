@@ -1,5 +1,6 @@
 ### TODO ###
 + Turn project to Maven project
++ Divide program into smaller classes - RecordCreate , read, update, delete, ...  
 + Turn .txt recording to .csv with OpenCSV
 + Refactor - Create Menu class
 + Menu - select certain date range stats
