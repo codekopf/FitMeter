@@ -4,8 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
-public class StepsRecord
+public class Record
 {
 	private int noStepsPerDay;
 	private int noCaloriesPerDay;
@@ -14,7 +15,7 @@ public class StepsRecord
 	private int recordYear;
 	
 	/* Constructor */
-	public StepsRecord (int recordYear, int recordMonth, int recordDay, int noStepsPerDay, int noCaloriesPerDay)
+	public Record (int recordYear, int recordMonth, int recordDay, int noStepsPerDay, int noCaloriesPerDay)
 	{
 		this.recordYear = recordYear;
 		this.recordMonth = recordMonth;
