@@ -21,9 +21,6 @@ public class App {
 
 		try (Scanner in = new Scanner(System.in)) {
 			int menuNumber;
-			// ArrayList<StepsRecord> allRecords = new ArrayList<StepsRecord>();
-			// int recordID;
-
 			do {
 				Menu.printBasicMenu();
 				menuNumber = in.nextInt();
