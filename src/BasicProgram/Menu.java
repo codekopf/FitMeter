@@ -23,65 +23,82 @@ public class Menu {
 	
 	public static void printBasicMenu(){
 		System.out.println("What would you like to do?");
-		System.out.println("------------------------------------------\n" + "MENU:\n" + "Press 1 to add new record\n"
-				+ "Press 2 to read all previous records\n" + "Press 3 to edit certain record\n"
-				+ "Press 4 to delete record\n" + "Press 0 to end program\n"
+		System.out.println(
+				"------------------------------------------\n" + 
+				"MENU:\n" + "Press 1 to add new record \n" + 
+				"Press 2 to read all previous records \n" + 
+				"Press 3 to edit certain record \n" + 
+				"Press 4 to delete record \n" + 
+				"Press 0 to end program \n"
 				+ "------------------------------------------");
 	}
 	
 	public static void cyrclingSwitch(int menuNumber) {
+		int noStepsPerDay, noCaloriesPerDay, recordYear, recordMonth, recordDay;
+		Scanner in = new Scanner(System.in);
 		switch (menuNumber) {
-		/* CREATE NEW RECORD */
-		case 1:
-			Menu.recordCreate();
-			break;
-
-		/* READ RECORDS */
-		case 2:
-			Menu.recordRead();
-			break;
-
-		/* EDIT RECORD */
-		case 3:
-			Menu.recordEdit();
-			break;
-
-		/* DELETE RECORD */
-		case 4:
-			Menu.recordDelete();
-			break;
-		default:
-			System.out.println("THE END");
-			break;
+			/* CREATE NEW RECORD */
+			case 1:	
+				System.out.println("You choosed to create new record");
+				System.out.println("Which year?");
+				recordYear = in.nextInt();
+				System.out.println("Which month?");
+				recordMonth = in.nextInt();
+				System.out.println("Which day?");
+				recordDay = in.nextInt();
+				System.out.println("How much steps?");
+				noStepsPerDay = in.nextInt();
+				System.out.println("How much calories");
+				noCaloriesPerDay = in.nextInt();
+				Menu.recordCreate(recordYear, recordMonth, recordDay, noStepsPerDay, noCaloriesPerDay);
+				break;
+	
+			/* READ ALL RECORDS */
+			case 2:
+				System.out.println("You choosed to read all records");
+				Menu.recordReadAll();
+				break;
+	
+			/* EDIT SPECIFIC RECORD */
+			case 3:		
+				System.out.println("You choosed to edit certain record");
+				System.out.println("Which year?");
+				recordYear = in.nextInt();
+				System.out.println("Which month?");
+				recordMonth = in.nextInt();
+				System.out.println("Which day?");
+				recordDay = in.nextInt();
+				System.out.println("Searching...");
+				Menu.recordEdit(recordYear, recordMonth, recordDay);
+				break;
+	
+			/* DELETE SPECIFIC RECORD */
+			case 4:			
+				System.out.println("You choosed to delete record");
+				System.out.println("Select ID of record you would like to remove.");
+				System.out.println("Record has been removed.");
+				System.out.println("Which year?");
+				recordYear = in.nextInt();
+				System.out.println("Which month?");
+				recordMonth = in.nextInt();
+				System.out.println("Which day?");
+				recordDay = in.nextInt();
+				System.out.println("Searching...");
+				Menu.recordDelete(recordYear, recordMonth, recordDay);
+				break;
+			default:
+				System.out.println("THE END");
+				break;
 		}
 	}
 
-	public static void recordCreate() {
-		int noStepsPerDay, noCaloriesPerDay, recordYear, recordMonth, recordDay;
-		
-		System.out.println("You choosed to create new record");
-		Scanner in = new Scanner(System.in);
-		
-		System.out.println("Which year?");
-		recordYear = in.nextInt();
-		System.out.println("Which month?");
-		recordMonth = in.nextInt();
-		System.out.println("Which day?");
-		recordDay = in.nextInt();
-		System.out.println("How much steps?");
-		noStepsPerDay = in.nextInt();
-		System.out.println("How much calories");
-		noCaloriesPerDay = in.nextInt();
-
-		Record newDailyRecord = new Record(recordYear, recordMonth, recordDay, noStepsPerDay,
-				noCaloriesPerDay);
-
+	public static void recordCreate(int recordYear, int recordMonth, int recordDay, int noStepsPerDay, int noCaloriesPerDay) {
+		Record newDailyRecord = new Record(recordYear, recordMonth, recordDay, noStepsPerDay, noCaloriesPerDay);
 		newDailyRecord.createRecordInDocument();
-	
 	}
 	
-	public static void recordRead() {
-		System.out.println("You choosed to read all records");
+	public static void recordReadAll() {
+		
 		// TODO - Ask to sort by ID or Date; ps. Comparable
 		// interface
 		// Collections.sort(allRecords);
@@ -118,22 +135,7 @@ public class Menu {
 		file = null;
 	}
 	
-	public static void recordEdit() {
-		int recordYear, recordMonth, recordDay;
-		
-		System.out.println("You choosed to edit certain record");
-		Scanner in = new Scanner(System.in);
-
-		// Ask for the search parameters
-		System.out.println("Which year?");
-		recordYear = in.nextInt();
-		System.out.println("Which month?");
-		recordMonth = in.nextInt();
-		System.out.println("Which day?");
-		recordDay = in.nextInt();
-
-		// Convert existing records to an ArrayList
-		System.out.println("Searching...");
+	public static void recordEdit(int recordYear, int recordMonth, int recordDay) {
 		ArrayList<String> arr = new ArrayList<String>();
 		
 		//CSVReader reader = new CSVReader(new FileReader("yourfile.csv"));
@@ -176,27 +178,8 @@ public class Menu {
 		}
 	}
 	
-	public static void recordDelete(){
-		int recordYear, recordMonth, recordDay;
-		
-		System.out.println("You choosed to delete record");
+	public static void recordDelete(int recordYear, int recordMonth, int recordDay){
 
-		System.out.println("Select ID of record you would like to remove.");
-
-		System.out.println("Record has been removed.");
-		
-		Scanner in = new Scanner(System.in);
-		
-		// Ask for the search parameters
-		System.out.println("Which year?");
-		recordYear = in.nextInt();
-		System.out.println("Which month?");
-		recordMonth = in.nextInt();
-		System.out.println("Which day?");
-		recordDay = in.nextInt();
-
-		// Convert existing records to an ArrayList
-		System.out.println("Searching...");
 		ArrayList<String> arr2 = new ArrayList<String>();
 
 		File fileToRewrite2 = new File("data.csv");
@@ -236,6 +219,5 @@ public class Menu {
 		} catch (IOException e) {
 			System.out.println("Unable to read the file: " + fileToRewrite2.toString());
 		}
-		
 	}
 }

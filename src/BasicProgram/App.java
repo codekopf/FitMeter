@@ -1,7 +1,3 @@
-/*
- * Made by Andrej Buday 2016
- * V.: Java SE 1.8
- */
 package BasicProgram;
 
 import java.util.Scanner;

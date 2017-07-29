@@ -1,23 +1,22 @@
+### Installation
+Simply copy or clone the FitMeter repository into desired folder and run it Eclipse or command line like java App.class
+
+### CURRENTLY WORKING ###
++ Complete shift from .txt to .csv data storage
++ Write tests to check the shift
+
 ### TODO ###
-+ Turn project to Maven project
-+ Divide program into smaller classes - RecordCreate , read, update, delete, ...  
-+ Turn .txt recording to .csv with OpenCSV
-+ Refactor - Create Menu class
-+ Menu - select certain date range stats
-+ More Unit tests
-+ More comments 
-+ DB API ?
-+ Gradually build GUI with Spring, etc.
-+ Create nice Readme.md details exp. how to run with console
-+ + Create imports data with App arguments
-+ Rename the App for FitMeter
-+ Stats ? Graphs ?
-+ interface Comparable for comparing ids
++ Support inserting records over script command line
++ Write more unit tests
++ Write more comments 
++ Gradually build GUI with Spring and stand-alone "double-click" app
++ Implement into menu option to select certain date range and show statistics for selected period
++ Implement mini gif/video of app usage into the Readme.md
++ Create option to add personal note/description to each day
 
-
-public class FileTest {
-    public static void main(String args[]) {
-        File f = new File(args[0]);
-        System.out.println(f + (f.exists()? " is found " : " is missing "));
-    }
-}
+### DONE ###
++ Project turned to Maven project
++ Implemented OpenCSV for handling .csv 
++ Refactor code - Created Menu class
++ Improve Readme.md
++ App renamed to FitMeter
