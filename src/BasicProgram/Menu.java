@@ -1,6 +1,5 @@
 package BasicProgram;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -104,7 +103,7 @@ public class Menu {
 		try (CSVReader reader = new CSVReader(new FileReader(file))) {
 			for(String[] nextLine : reader) {
 			    // nextLine[] is an array of values from the line
-				System.out.println(nextLine[0] + ", " + nextLine[1] + ", " + nextLine[2] + ", " + nextLine[3]);
+				System.out.println(nextLine[0] + "," + nextLine[1] + "," + nextLine[2] + "," + nextLine[3] + ",");
 				totalNumLines++;
 			}
 			System.out.println("---------------------");
@@ -121,12 +120,12 @@ public class Menu {
 	
 	public static void recordEdit(int recordYear, int recordMonth, int recordDay) {
 		Scanner tempIn = new Scanner(System.in);
-		List<String[]> l = fetchAllRecords();
+		List<String[]> allRecordsList = fetchAllRecords();
 		
 		// Set search pattern
 		String pattern = recordYear + "-" + (recordMonth < 10 ? "0" : "") + recordMonth + "-" + (recordDay < 10 ? "0" : "") + recordDay;
 		
-		for(String[] record : l) {
+		for(String[] record : allRecordsList) {
 			if (record[0].contains(pattern)) {
 				System.out.println(
 						"Record exists:" + 
@@ -142,80 +141,32 @@ public class Menu {
 			}
 		}
 
-		saveAllRecords(l);
+		saveAllRecords(allRecordsList);
 	}
 
 	
 	public static void recordDelete(int recordYear, int recordMonth, int recordDay){
-		
-		Scanner tempIn = new Scanner(System.in);
-		List<String[]> l = fetchAllRecords();
+		List<String[]> allRecordsList = fetchAllRecords();
 		
 		// Set search pattern
 		String pattern = recordYear + "-" + (recordMonth < 10 ? "0" : "") + recordMonth + "-" + (recordDay < 10 ? "0" : "") + recordDay;
 		
-		Iterator<String[]> i = l.iterator();
+		Iterator<String[]> allRecordsIterator = allRecordsList.iterator();
+		List<String[]> allRecordsListNew = new ArrayList<String[]>();
 		
-		while (i.hasNext()) {
-			if (i[0].contains(pattern)) {
-				l.remove()
+		while (allRecordsIterator.hasNext()) {
+			String[] currentRecord = allRecordsIterator.next();
+			if (currentRecord[0].contains(pattern)) {
+				allRecordsIterator.remove();
 				System.out.println("Record has been deleted.");
+			} else {
+				allRecordsListNew.add(currentRecord);
 			}
 		}
-//			   Object o = i.next();
-//			  //some condition
-//			    i.remove();
-//			}
-//		
-//		for(String[] record : l) {
-//			if (record[0].contains(pattern)) {
-//				l.remove()
-//				System.out.println("Record has been deleted.");
-//			}
-//		}
-
-		saveAllRecords(l);
-
-//		ArrayList<String> arr2 = new ArrayList<String>();
-//
-//		File fileToRewrite2 = new File("data.csv");
-//
-//		try (BufferedReader br = new BufferedReader(new FileReader(fileToRewrite2))) {
-//			String sCurrentLine;
-//			while ((sCurrentLine = br.readLine()) != null) {
-//				arr2.add(sCurrentLine);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		// Set search pattern
-//		String pattern2 = recordYear + " " + (recordMonth < 10 ? "0" : "") + recordMonth + " "
-//				+ (recordDay < 10 ? "0" : "") + recordDay;
-//
-//		// TEST System.out.println(pattern);
-//
-//		// Loop trough the records to find a match
-//		for (String currLine : arr2) {
-//			if (currLine.contains(pattern2)) {
-//
-//				arr2.set(arr2.indexOf(currLine), "");
-//				System.out.println("Record removed" + "---------------------");
-//			}
-//		}
-//
-//		try (BufferedWriter br = new BufferedWriter(new FileWriter(fileToRewrite2))) {
-//			for (String currLine : arr2) {
-//				if (currLine != null && !currLine.isEmpty()) {
-//					br.write(currLine);
-//					br.newLine();
-//				}
-//			}
-//			System.out.println("File updated.");
-//		} catch (IOException e) {
-//			System.out.println("Unable to read the file: " + fileToRewrite2.toString());
-//		}
+		saveAllRecords(allRecordsListNew);
 	}
+	
+
 	
 	private static List<String[]> fetchAllRecords(){
 		File file = new File("data.csv");
@@ -249,7 +200,7 @@ public class Menu {
 		}
 
 		for(String[] record : l) {
-			String row = record[0] + ", " + record[1] + ", " +  record[2] + ", " +  record[3] + ",";
+			String row = record[0] + "," + record[1] + "," +  record[2] + "," +  record[3] + ",";
 			try (BufferedWriter br = new BufferedWriter(new FileWriter(file, true))) {
 				br.write(row);
 				br.newLine();
