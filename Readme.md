@@ -1,6 +1,13 @@
-### Installation
+## FitMeter ##
+FitMeter is simple program which I created for tracking walked steps and burned calories with my Garmin Vivofit wearable.
+
+### FEATURES ###
++ Recording daily activity - steps, burned calories and personal notes
+
+## Installation ##
 Simply copy or clone the FitMeter repository into desired folder and run it Eclipse or command line like java App.class
 
+## Development
 ### CURRENTLY WORKING ###
 + Complete shift from .txt to .csv data storage
 + Write tests to check the shift
@@ -13,6 +20,7 @@ Simply copy or clone the FitMeter repository into desired folder and run it Ecli
 + Implement into menu option to select certain date range and show statistics for selected period
 + Implement mini gif/video of app usage into the Readme.md
 + Create option to add personal note/description to each day
++ Implement check for order by date after every new record
 
 ### DONE ###
 + Project turned to Maven project

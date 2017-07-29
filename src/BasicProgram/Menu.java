@@ -3,13 +3,13 @@ package BasicProgram;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -98,13 +98,7 @@ public class Menu {
 	}
 	
 	public static void recordReadAll() {
-		
-		// TODO - Ask to sort by ID or Date; ps. Comparable
-		// interface
-		// Collections.sort(allRecords);
-		
 		// long startTime = System.nanoTime();
-
 		int totalNumLines = 0;
 		File file = new File("data.csv");
 		try (CSVReader reader = new CSVReader(new FileReader(file))) {
@@ -113,111 +107,157 @@ public class Menu {
 				System.out.println(nextLine[0] + ", " + nextLine[1] + ", " + nextLine[2] + ", " + nextLine[3]);
 				totalNumLines++;
 			}
-			
-//			String sCurrentLine;
-//			while ((sCurrentLine = reader.readLine()) != null) {
-//				System.out.println(sCurrentLine);
-//				totalNumLines++;
-//			}
 			System.out.println("---------------------");
 			System.out.println("File has " + totalNumLines + " lines.");
 			reader.close();
 		} catch (IOException e) {
 			System.out.println("Unable to read the file: " + file.toString());
 		}
-
 		//long endTime = System.nanoTime();
-		
 		// double estTime = (endTime-startTime)/100000000.0;
 		// System.out.println(estTime);
-		// TODO - Maybe remove StepsRecords toString method
-		// System.out.println(allRecords.toString());
 		file = null;
 	}
 	
 	public static void recordEdit(int recordYear, int recordMonth, int recordDay) {
-		ArrayList<String> arr = new ArrayList<String>();
+		Scanner tempIn = new Scanner(System.in);
+		List<String[]> l = fetchAllRecords();
 		
-		//CSVReader reader = new CSVReader(new FileReader("yourfile.csv"));
-	    //List<String[]> myEntries = reader.readAll();
-
-		File fileToRewrite = new File("data.csv");
-
-		try (BufferedReader br = new BufferedReader(new FileReader(fileToRewrite))) {
-			String sCurrentLine;
-			while ((sCurrentLine = br.readLine()) != null) {
-				arr.add(sCurrentLine);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		// Set search pattern
-		String pattern = recordYear + " " + (recordMonth < 10 ? "0" : "") + recordMonth + " "
-				+ (recordDay < 10 ? "0" : "") + recordDay;
-
-		// TEST System.out.println(pattern);
-
-		// Loop trough the records to find a match
-		for (String currLine : arr) {
-			if (currLine.contains(pattern)) {
-				System.out.println("Record exists:" + "---------------------");
-
-				arr.set(arr.indexOf(currLine), "XXXX YYY");
+		String pattern = recordYear + "-" + (recordMonth < 10 ? "0" : "") + recordMonth + "-" + (recordDay < 10 ? "0" : "") + recordDay;
+		
+		for(String[] record : l) {
+			if (record[0].contains(pattern)) {
+				System.out.println(
+						"Record exists:" + 
+						record[0] + "\n" + 
+						record[1] + "\n" + 
+						record[2] + "\n" + 
+						record[3] + "\n" + 
+						"---------------------");
+				System.out.println("How much steps?");
+				record[1] = tempIn.nextLine();
+				System.out.println("How much calories");
+				record[2] = tempIn.nextLine();
 			}
 		}
 
-		try (BufferedWriter br = new BufferedWriter(new FileWriter(fileToRewrite))) {
-			for (String currLine : arr) {
-				br.write(currLine);
-				br.newLine();
-			}
-			System.out.println("File updated.");
-		} catch (IOException e) {
-			System.out.println("Unable to read the file: " + fileToRewrite.toString());
-		}
+		saveAllRecords(l);
 	}
+
 	
 	public static void recordDelete(int recordYear, int recordMonth, int recordDay){
-
-		ArrayList<String> arr2 = new ArrayList<String>();
-
-		File fileToRewrite2 = new File("data.csv");
-
-		try (BufferedReader br = new BufferedReader(new FileReader(fileToRewrite2))) {
-			String sCurrentLine;
-			while ((sCurrentLine = br.readLine()) != null) {
-				arr2.add(sCurrentLine);
+		
+		Scanner tempIn = new Scanner(System.in);
+		List<String[]> l = fetchAllRecords();
+		
+		// Set search pattern
+		String pattern = recordYear + "-" + (recordMonth < 10 ? "0" : "") + recordMonth + "-" + (recordDay < 10 ? "0" : "") + recordDay;
+		
+		Iterator<String[]> i = l.iterator();
+		
+		while (i.hasNext()) {
+			if (i[0].contains(pattern)) {
+				l.remove()
+				System.out.println("Record has been deleted.");
 			}
+		}
+//			   Object o = i.next();
+//			  //some condition
+//			    i.remove();
+//			}
+//		
+//		for(String[] record : l) {
+//			if (record[0].contains(pattern)) {
+//				l.remove()
+//				System.out.println("Record has been deleted.");
+//			}
+//		}
+
+		saveAllRecords(l);
+
+//		ArrayList<String> arr2 = new ArrayList<String>();
+//
+//		File fileToRewrite2 = new File("data.csv");
+//
+//		try (BufferedReader br = new BufferedReader(new FileReader(fileToRewrite2))) {
+//			String sCurrentLine;
+//			while ((sCurrentLine = br.readLine()) != null) {
+//				arr2.add(sCurrentLine);
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		// Set search pattern
+//		String pattern2 = recordYear + " " + (recordMonth < 10 ? "0" : "") + recordMonth + " "
+//				+ (recordDay < 10 ? "0" : "") + recordDay;
+//
+//		// TEST System.out.println(pattern);
+//
+//		// Loop trough the records to find a match
+//		for (String currLine : arr2) {
+//			if (currLine.contains(pattern2)) {
+//
+//				arr2.set(arr2.indexOf(currLine), "");
+//				System.out.println("Record removed" + "---------------------");
+//			}
+//		}
+//
+//		try (BufferedWriter br = new BufferedWriter(new FileWriter(fileToRewrite2))) {
+//			for (String currLine : arr2) {
+//				if (currLine != null && !currLine.isEmpty()) {
+//					br.write(currLine);
+//					br.newLine();
+//				}
+//			}
+//			System.out.println("File updated.");
+//		} catch (IOException e) {
+//			System.out.println("Unable to read the file: " + fileToRewrite2.toString());
+//		}
+	}
+	
+	private static List<String[]> fetchAllRecords(){
+		File file = new File("data.csv");
+		List<String[]> l = new ArrayList<String[]>();
+		try (CSVReader reader = new CSVReader(new FileReader(file))) {
+			for(String[] nextLine : reader) {
+			    // nextLine[] is an array of values from the line
+				l.add(nextLine);
+			}
+			reader.close();
 		} catch (IOException e) {
+			System.out.println("Unable to read the file: " + file.toString());
+		}	
+		return l;
+	}
+	
+	private static void saveAllRecords(List<String[]> l){
+		File file = new File("data.csv");
+		
+		FileOutputStream writer;
+		try {
+			writer = new FileOutputStream(file);
+			writer.write(("").getBytes());
+			writer.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}  catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// Set search pattern
-		String pattern2 = recordYear + " " + (recordMonth < 10 ? "0" : "") + recordMonth + " "
-				+ (recordDay < 10 ? "0" : "") + recordDay;
-
-		// TEST System.out.println(pattern);
-
-		// Loop trough the records to find a match
-		for (String currLine : arr2) {
-			if (currLine.contains(pattern2)) {
-
-				arr2.set(arr2.indexOf(currLine), "");
-				System.out.println("Record removed" + "---------------------");
+		for(String[] record : l) {
+			String row = record[0] + ", " + record[1] + ", " +  record[2] + ", " +  record[3] + ",";
+			try (BufferedWriter br = new BufferedWriter(new FileWriter(file, true))) {
+				br.write(row);
+				br.newLine();
+			} catch(IOException e) {
+				e.printStackTrace();
+				System.out.println("Unable to read the file: " + file.toString());
 			}
 		}
-
-		try (BufferedWriter br = new BufferedWriter(new FileWriter(fileToRewrite2))) {
-			for (String currLine : arr2) {
-				if (currLine != null && !currLine.isEmpty()) {
-					br.write(currLine);
-					br.newLine();
-				}
-			}
-			System.out.println("File updated.");
-		} catch (IOException e) {
-			System.out.println("Unable to read the file: " + fileToRewrite2.toString());
-		}
+		System.out.println("File updated.");
 	}
 }
