@@ -3,11 +3,17 @@ package BasicProgram;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import com.opencsv.CSVReader;
 
 public class Menu {
 	
@@ -22,7 +28,33 @@ public class Menu {
 				+ "Press 4 to delete record\n" + "Press 0 to end program\n"
 				+ "------------------------------------------");
 	}
+	
+	public static void cyrclingSwitch(int menuNumber) {
+		switch (menuNumber) {
+		/* CREATE NEW RECORD */
+		case 1:
+			Menu.recordCreate();
+			break;
 
+		/* READ RECORDS */
+		case 2:
+			Menu.recordRead();
+			break;
+
+		/* EDIT RECORD */
+		case 3:
+			Menu.recordEdit();
+			break;
+
+		/* DELETE RECORD */
+		case 4:
+			Menu.recordDelete();
+			break;
+		default:
+			System.out.println("THE END");
+			break;
+		}
+	}
 
 	public static void recordCreate() {
 		int noStepsPerDay, noCaloriesPerDay, recordYear, recordMonth, recordDay;
@@ -45,8 +77,7 @@ public class Menu {
 				noCaloriesPerDay);
 
 		newDailyRecord.createRecordInDocument();
-		
-		in.close();
+	
 	}
 	
 	public static void recordRead() {
@@ -58,16 +89,22 @@ public class Menu {
 		// long startTime = System.nanoTime();
 
 		int totalNumLines = 0;
-		File file = new File("records.txt");
-		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-			String sCurrentLine;
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
+		File file = new File("data.csv");
+		try (CSVReader reader = new CSVReader(new FileReader(file))) {
+			for(String[] nextLine : reader) {
+			    // nextLine[] is an array of values from the line
+				System.out.println(nextLine[0] + ", " + nextLine[1] + ", " + nextLine[2] + ", " + nextLine[3]);
 				totalNumLines++;
 			}
+			
+//			String sCurrentLine;
+//			while ((sCurrentLine = reader.readLine()) != null) {
+//				System.out.println(sCurrentLine);
+//				totalNumLines++;
+//			}
 			System.out.println("---------------------");
 			System.out.println("File has " + totalNumLines + " lines.");
-			br.close();
+			reader.close();
 		} catch (IOException e) {
 			System.out.println("Unable to read the file: " + file.toString());
 		}
@@ -98,8 +135,11 @@ public class Menu {
 		// Convert existing records to an ArrayList
 		System.out.println("Searching...");
 		ArrayList<String> arr = new ArrayList<String>();
+		
+		//CSVReader reader = new CSVReader(new FileReader("yourfile.csv"));
+	    //List<String[]> myEntries = reader.readAll();
 
-		File fileToRewrite = new File("records.txt");
+		File fileToRewrite = new File("data.csv");
 
 		try (BufferedReader br = new BufferedReader(new FileReader(fileToRewrite))) {
 			String sCurrentLine;
@@ -134,7 +174,6 @@ public class Menu {
 		} catch (IOException e) {
 			System.out.println("Unable to read the file: " + fileToRewrite.toString());
 		}
-		in.close();
 	}
 	
 	public static void recordDelete(){
@@ -160,7 +199,7 @@ public class Menu {
 		System.out.println("Searching...");
 		ArrayList<String> arr2 = new ArrayList<String>();
 
-		File fileToRewrite2 = new File("records.txt");
+		File fileToRewrite2 = new File("data.csv");
 
 		try (BufferedReader br = new BufferedReader(new FileReader(fileToRewrite2))) {
 			String sCurrentLine;
@@ -198,6 +237,5 @@ public class Menu {
 			System.out.println("Unable to read the file: " + fileToRewrite2.toString());
 		}
 		
-		in.close();
 	}
 }

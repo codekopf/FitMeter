@@ -1,16 +1,20 @@
-package BasicProgram;
+package tests;
+
 import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import BasicProgram.Record;
+
 public class UnitTest {
 
 	@Before
 	public void setUp() throws Exception {
 		ArrayList<Record> allRecords = new ArrayList<Record>();
-		// noStepsPerDay, noCaloriesPerDay, recordYear, recordMonth, recordDay, recordID;
+		// noStepsPerDay, noCaloriesPerDay, recordYear, recordMonth, recordDay,
+		// recordID;
 		// TODO - Unit tests
 		// TEST
 		Record newDailyRecord1 = new Record(2016, 01, 14, 4000, 70000); // TEST
@@ -25,31 +29,30 @@ public class UnitTest {
 		allRecords.add(newDailyRecord5); // TEST
 		Record newDailyRecord6 = new Record(2013, 07, 11, 80, 81); // TEST
 		allRecords.add(newDailyRecord6); // TEST
-		
-		for(Record record : allRecords) {
+
+		for (Record record : allRecords) {
 			record.createRecordInDocument();
 		}
 	}
 
 	@Test
 	public void test() {
-		//fail("Not yet implemented");
-		assertEquals("Checkl fierst", "A","A");
+		// fail("Not yet implemented");
+		assertEquals("Checkl fierst", "A", "A");
 		assertEquals("Chgeck second", "B", "B");
 	}
-	
-	public void testGet(){
-//		try {
-//			fail("Check out of bands");
-//		} catch (IndexOutOfBoundsExceptions e) {
-//			
-//		}
-//		
-		
-		
-		assertEquals("Checkl fierst", "A","A");
+
+	public void testGet() {
+		// try {
+		// fail("Check out of bands");
+		// } catch (IndexOutOfBoundsExceptions e) {
+		//
+		// }
+		//
+
+		assertEquals("Checkl fierst", "A", "A");
 		assertEquals("Chgeck second", "B", "A");
-		
+
 	}
 
 }

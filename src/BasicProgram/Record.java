@@ -2,9 +2,11 @@ package BasicProgram;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+
+import com.opencsv.CSVReader;
 
 public class Record
 {
@@ -60,15 +62,17 @@ public class Record
 		this.recordDay = recordDay;	
 	}
 	
-	public void createRecordInDocument() {		
-		String records = String.format("%4d %02d %02d %5d %5d", recordYear , recordMonth, recordDay, noStepsPerDay, noStepsPerDay);
-		
-		File file = new File("records.txt");
+	public void createRecordInDocument() {
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String records = String.format("%d-%02d-%02d,%d,%d,", recordYear , recordMonth, recordDay, noStepsPerDay, noStepsPerDay);
+				
+		File file = new File("data.csv");
 		try (BufferedWriter br = new BufferedWriter(new FileWriter(file, true))) {
 			br.write(records);
 			br.newLine();
 			System.out.println("File updated.");
 		} catch(IOException e) {
+			e.printStackTrace();
 			System.out.println("Unable to read the file: " + file.toString());
 		}
 	}

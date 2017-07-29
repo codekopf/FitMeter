@@ -4,13 +4,6 @@
  */
 package BasicProgram;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class App {
@@ -24,31 +17,13 @@ public class App {
 			do {
 				Menu.printBasicMenu();
 				menuNumber = in.nextInt();
-				switch (menuNumber) {
-				/* CREATE NEW RECORD */
-				case 1:
-					Menu.recordCreate();
-					break;
-
-				/* READ RECORDS */
-				case 2:
-					Menu.recordRead();
-					break;
-
-				/* EDIT RECORD */
-				case 3:
-					Menu.recordEdit();
-					break;
-
-				/* DELETE RECORD */
-				case 4:
-					Menu.recordDelete();
-					break;
-				default:
-					System.out.println("THE END");
-					break;
-				}
+				Menu.cyrclingSwitch(menuNumber);
 			} while (menuNumber != 0);
+			in.close();
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
+		
 	}
 }
