@@ -62,11 +62,11 @@ public class Record
 		this.recordDay = recordDay;	
 	}
 	
-	public void createRecordInDocument() {
+	public void createRecordInDocument(String fileName) {
 		// SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		String records = String.format("%d-%02d-%02d,%d,%d,", recordYear , recordMonth, recordDay, noStepsPerDay, noStepsPerDay);
 				
-		File file = new File("data.csv");
+		File file = new File(fileName);
 		try (BufferedWriter br = new BufferedWriter(new FileWriter(file, true))) {
 			br.write(records);
 			br.newLine();

@@ -35,6 +35,7 @@ public class Menu {
 	public static void cyrclingSwitch(int menuNumber) {
 		int noStepsPerDay, noCaloriesPerDay, recordYear, recordMonth, recordDay;
 		Scanner in = new Scanner(System.in);
+		String fileName = "data.csv";
 		switch (menuNumber) {
 			/* CREATE NEW RECORD */
 			case 1:	
@@ -49,13 +50,13 @@ public class Menu {
 				noStepsPerDay = in.nextInt();
 				System.out.println("How much calories");
 				noCaloriesPerDay = in.nextInt();
-				Menu.recordCreate(recordYear, recordMonth, recordDay, noStepsPerDay, noCaloriesPerDay);
+				Menu.recordCreate(fileName, recordYear, recordMonth, recordDay, noStepsPerDay, noCaloriesPerDay);
 				break;
 	
 			/* READ ALL RECORDS */
 			case 2:
 				System.out.println("You choosed to read all records");
-				Menu.recordReadAll();
+				Menu.recordReadAll(fileName);
 				break;
 	
 			/* EDIT SPECIFIC RECORD */
@@ -68,7 +69,7 @@ public class Menu {
 				System.out.println("Which day?");
 				recordDay = in.nextInt();
 				System.out.println("Searching...");
-				Menu.recordEdit(recordYear, recordMonth, recordDay);
+				Menu.recordEdit(fileName, recordYear, recordMonth, recordDay);
 				break;
 	
 			/* DELETE SPECIFIC RECORD */
@@ -83,7 +84,7 @@ public class Menu {
 				System.out.println("Which day?");
 				recordDay = in.nextInt();
 				System.out.println("Searching...");
-				Menu.recordDelete(recordYear, recordMonth, recordDay);
+				Menu.recordDelete(fileName, recordYear, recordMonth, recordDay);
 				break;
 			default:
 				System.out.println("THE END");
@@ -91,15 +92,15 @@ public class Menu {
 		}
 	}
 
-	public static void recordCreate(int recordYear, int recordMonth, int recordDay, int noStepsPerDay, int noCaloriesPerDay) {
+	public static void recordCreate(String fileName, int recordYear, int recordMonth, int recordDay, int noStepsPerDay, int noCaloriesPerDay) {
 		Record newDailyRecord = new Record(recordYear, recordMonth, recordDay, noStepsPerDay, noCaloriesPerDay);
-		newDailyRecord.createRecordInDocument();
+		newDailyRecord.createRecordInDocument(fileName);
 	}
 	
-	public static void recordReadAll() {
+	public static void recordReadAll(String fileName) {
 		// long startTime = System.nanoTime();
 		int totalNumLines = 0;
-		File file = new File("data.csv");
+		File file = new File(fileName);
 		try (CSVReader reader = new CSVReader(new FileReader(file))) {
 			for(String[] nextLine : reader) {
 			    // nextLine[] is an array of values from the line
@@ -118,7 +119,7 @@ public class Menu {
 		file = null;
 	}
 	
-	public static void recordEdit(int recordYear, int recordMonth, int recordDay) {
+	public static void recordEdit(String fileName, int recordYear, int recordMonth, int recordDay) {
 		Scanner tempIn = new Scanner(System.in);
 		List<String[]> allRecordsList = fetchAllRecords();
 		
@@ -141,11 +142,11 @@ public class Menu {
 			}
 		}
 
-		saveAllRecords(allRecordsList);
+		saveAllRecords(fileName, allRecordsList);
 	}
 
 	
-	public static void recordDelete(int recordYear, int recordMonth, int recordDay){
+	public static void recordDelete(String fileName, int recordYear, int recordMonth, int recordDay){
 		List<String[]> allRecordsList = fetchAllRecords();
 		
 		// Set search pattern
@@ -163,7 +164,7 @@ public class Menu {
 				allRecordsListNew.add(currentRecord);
 			}
 		}
-		saveAllRecords(allRecordsListNew);
+		saveAllRecords(fileName, allRecordsListNew);
 	}
 	
 
@@ -183,8 +184,8 @@ public class Menu {
 		return l;
 	}
 	
-	private static void saveAllRecords(List<String[]> l){
-		File file = new File("data.csv");
+	private static void saveAllRecords(String fileName, List<String[]> l){
+		File file = new File(fileName);
 		
 		FileOutputStream writer;
 		try {
